@@ -1,6 +1,6 @@
-import { React } from "react";
+import React from "react";
 
-const Message = () => {
+const Message = ({ message }) => {
   return (
     <div className="message owner">
       <div className="messageInfo">
@@ -8,7 +8,7 @@ const Message = () => {
         <span>just now</span>
       </div>
       <div className="messageContent">
-        <p>hello</p>
+        <p>{message.text}</p>
         <img src="https://picsum.photos/200/300" alt="" />
       </div>
     </div>

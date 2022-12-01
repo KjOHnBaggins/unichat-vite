@@ -1,10 +1,11 @@
-import { React } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { signOut } from "firebase/auth";
-import firebaseAuth from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { firebaseAuth } from "../firebase";
 import Chat from "./chat-components/Chat";
 
 const Chats = () => {
+  const [user] = useAuthState(firebaseAuth);
   return (
     <div className="chats-page">
       <div className="nav-bar">

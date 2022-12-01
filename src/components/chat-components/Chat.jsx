@@ -1,11 +1,13 @@
-import { React } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { db } from "../../firebase";
 import Input from "./Input";
 import Sidebar from "./Sidebar";
-// import Search from "./Search";
-// import Navbar from "./Navbar";
 import Messages from "./Messages";
 
 const Chat = () => {
+  const scroll = useRef();
+
   return (
     <div className="chat-container">
       <Sidebar />
@@ -19,7 +21,8 @@ const Chat = () => {
           </div>
         </div>
         <Messages />
-        <Input />
+        <Input scroll={scroll} />
+        <span ref={scroll}></span>
       </div>
     </div>
   );

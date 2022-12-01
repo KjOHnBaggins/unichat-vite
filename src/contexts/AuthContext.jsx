@@ -1,28 +1,27 @@
-import { useContext, useState, useEffect, createContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import firebaseAuth from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { firebaseAuth } from "../firebase";
 
-export const AuthContext = createContext();
-
-export const useAuth = () => useContext(AuthContext);
+export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  const history = useNavigate();
+  // const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({});
+  // const history = useNavigate();
 
   useEffect(() => {
-    firebaseAuth.onAuthStateChanged((user) => {
+    const unsub = onAuthStateChanged(firebaseAuth, (user) => {
       setUser(user);
-      setLoading(false);
-      if (user) history("/chats");
+      // setLoading(false);
+      // if (user) history("/chats");
     });
-  }, [user, history]);
+    return () => {
+      unsub();
+    };
+  }, [user]);
 
-  const value = { user };
   return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
   );
 };

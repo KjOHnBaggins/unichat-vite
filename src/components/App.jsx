@@ -1,26 +1,29 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
-import { AuthProvider } from "../contexts/AuthContext";
-import { useAuth } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 import Chats from "./Chats";
 import Login from "./Login";
 
 function App() {
-  console.log({ useAuth });
+  const { user } = React.useContext(AuthContext);
+  console.log(user);
   return (
-    <div style={{ fontFamily: "Avenir" }}>
-      <Router>
-        <AuthProvider>
-          <Routes>
-            <Route path="/chats" element={<Chats />} />
-            <Route path="/" element={<Login />} />
-          </Routes>
-        </AuthProvider>
-      </Router>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/">
+          <Route path="chats" element={user ? <Chats /> : <Login />} />
+          <Route index element={<Login />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 

@@ -19,7 +19,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/">
-          <Route path="chats" element={user ? <Chats /> : <Login />} />
+          <Route path="chats" element={<Chats />} />
           <Route index element={<Login />} />
         </Route>
       </Routes>
